@@ -48,11 +48,11 @@ namespace test
                 Client client = new Client();
                 client.tcpClient.Client = server.Client.Accept();
 
-                NetworkStream Write = client.tcpClient.GetStream();
-                Byte[] send = new Byte[1];
-                string mess = "Connect to Server \n";
-                send = Encoding.ASCII.GetBytes(mess);
-                Write.Write(send, 0, send.Length);
+                //NetworkStream Write = client.tcpClient.GetStream();
+                //Byte[] send = new Byte[1];
+                //string mess = "Connect to Server \n";
+                //send = Encoding.ASCII.GetBytes(mess);
+                //Write.Write(send, 0, send.Length);
 
                 NetworkStream Read = client.tcpClient.GetStream();
                 Byte[] BytesName = new Byte[1];
@@ -95,7 +95,8 @@ namespace test
                     foreach (var Member in MembersList)
                     {
                         lsbMembers.Items.Add(Member.tcpClient.Client.RemoteEndPoint + " || " + Member.UserName);
-                    }               
+                    }
+                    break;
                 }
 
                 //**gui tra du lieu cho Client**
@@ -128,6 +129,8 @@ namespace test
             //...
             //...
             //...
+            //test
+            Data = Data.ToUpper();
             return Encoding.UTF8.GetBytes(Data);
         }
     }

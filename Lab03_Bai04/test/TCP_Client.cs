@@ -64,17 +64,17 @@ namespace test
         //**Gui khi nhan phim Enter**
         private void rtxbMessage_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                Byte[] buffer = Encoding.UTF8.GetBytes($"{rtxbDataSend.Text}");
-                if (buffer.Length < 1)
-                {
-                    MessageBox.Show("Hay Nhap Van Ban! ", "WARNING", MessageBoxButtons.OK);
-                    return;
-                }
-                writeStream.Write(buffer, 0, buffer.Length);
-                writeStream.Flush();
-            }
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        Byte[] buffer = Encoding.UTF8.GetBytes($"{rtxbDataSend.Text}");
+        //        if (buffer.Length < 1)
+        //        {
+        //            MessageBox.Show("Hay Nhap Van Ban! ", "WARNING", MessageBoxButtons.OK);
+        //            return;
+        //        }
+        //        writeStream.Write(buffer, 0, buffer.Length);
+        //        writeStream.Flush();
+        //    }
         }
         public void ClientThread()
         {
@@ -125,7 +125,7 @@ namespace test
             tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 8080);
             readStream = tcpClient.GetStream();
             writeStream = tcpClient.GetStream();
-            Receive();
+            //Receive();
             if(txbUserName.Text.Length > 0)
             {
                 UserName = txbUserName.Text + "\n";

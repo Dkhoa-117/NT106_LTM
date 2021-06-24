@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Lab03\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {}
+    "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Lab03\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {
+    "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Lab03\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
         "projectName": "Lab03_Bai04",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Lab03\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
+        "projectPath": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Lab03\\Lab03_Bai04\\test\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
