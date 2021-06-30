@@ -39,7 +39,7 @@ namespace test
         //**Thiet Lap Ket Noi**
         public void Connect()
         {
-            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 8080);
+            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 4080);
             server.Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Client.Bind(ip);
             server.Client.Listen(10);
@@ -126,12 +126,58 @@ namespace test
         public Byte[] FixData(ref Byte[] sendBytes)
         {
             string Data = Encoding.UTF8.GetString(sendBytes);
-            //...
-            //...
-            //...
-            //test
-            Data = Data.ToUpper();
+            string temp = RightPlace(ref Data);
+            Data = CapitalizeFirst(ref temp);
             return Encoding.UTF8.GetBytes(Data);
+        }
+        
+        //Dat dung cho
+        public string RightPlace(ref string Data)
+	    {
+		    StringBuilder sb = new StringBuilder(Data.Trim());
+		    if(!(Data[Data.Length - 1] == '.' || Data[Data.Length - 1] == '?' || Data[Data.Length - 1] == '!') || Data[Data.Length - 1] == ',' || Data[Data.Length - 1] == ':')
+		    {
+			    sb.Append(".");
+		    }
+
+		    sb.Replace(".", ".$$$").Replace("!", "!$$$").Replace("?", "?$$$").Replace(":", ":$$$").Replace(";", ";$$$").Replace("…", "…$$$").Replace("\r\n", "\r\n$$$").Replace("\r", "\r$$$").Replace("\n", "\n$$$");
+		    string[] sentences = sb.ToString().Split("$$$", StringSplitOptions.RemoveEmptyEntries);
+		
+		    StringBuilder sb1 = new StringBuilder();
+		    for(int i = 0; i < sentences.Length; i++)
+		    {
+                string temp = sentences[i];
+                
+                string punc = temp[temp.Length - 1].ToString();
+                sentences[i].Remove(sentences[i].Length - 1);
+
+			    sb1.Append(sentences[i].Trim());
+			    sb1.AppendFormat("{0} ", punc);
+		    }
+		    return sb1.ToString();
+	    }
+        //Viet hoa
+        public string CapitalizeFirst(ref string s)
+        {
+            bool IsNewSentense = true;
+            var result = new StringBuilder(s.Length);
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (IsNewSentense && char.IsLetter(s[i]))
+                {
+                    result.Append (char.ToUpper (s[i]));
+                    IsNewSentense = false;
+                }
+                else
+                    result.Append (s[i]);
+
+                if (s[i] == '!' || s[i] == '?' || s[i] == '.')
+                {
+                    IsNewSentense = true;
+                }
+            }
+            result.Append("/n");
+            return result.ToString();
         }
     }
 }

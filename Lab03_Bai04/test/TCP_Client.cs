@@ -122,7 +122,7 @@ namespace test
         //**Thiet Lap Ket Noi**
         public void Connect()
         {
-            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 8080);
+            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 4080);
             readStream = tcpClient.GetStream();
             writeStream = tcpClient.GetStream();
             //Receive();
