@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -21,7 +22,7 @@ namespace test
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if(tcpClient.Connected)
+            if (tcpClient.Connected)
                 Send();
             else
             {
@@ -38,7 +39,7 @@ namespace test
         {
             rtxbDataSend.Enabled = true;
             CheckForIllegalCrossThreadCalls = false;
-            
+
             _Thread = new Thread(new ThreadStart(ClientThread));
             _Thread.Start();
 
@@ -63,19 +64,7 @@ namespace test
 
         //**Gui khi nhan phim Enter**
         private void rtxbMessage_KeyUp(object sender, KeyEventArgs e)
-        {
-        //    if (e.KeyCode == Keys.Enter)
-        //    {
-        //        Byte[] buffer = Encoding.UTF8.GetBytes($"{rtxbDataSend.Text}");
-        //        if (buffer.Length < 1)
-        //        {
-        //            MessageBox.Show("Hay Nhap Van Ban! ", "WARNING", MessageBoxButtons.OK);
-        //            return;
-        //        }
-        //        writeStream.Write(buffer, 0, buffer.Length);
-        //        writeStream.Flush();
-        //    }
-        }
+        { }
         public void ClientThread()
         {
             Connect();
@@ -88,45 +77,57 @@ namespace test
         //**Nhan Du Lieu Tu Server**
         public void Receive()
         {
-            Byte[] buffer = new Byte[1];
-            string Message = "";
+            Byte[] ReceiveBytes = new Byte[1];
+            NetworkStream networkStream = tcpClient.GetStream();
+            NetworkStream readStream = networkStream;
+            string Message = null;
             do
             {
-                try
-                {
-                    readStream.Read(buffer, 0, buffer.Length);
-                }
-                catch
-                {
-                    MessageBox.Show("Mat Ket Noi", "WARING", MessageBoxButtons.OK);
-                    break;
-                }
-                Message += Encoding.UTF8.GetString(buffer);
-                    
-            } while (Message[Message.Length - 1] != 10);
+                readStream.Read(ReceiveBytes, 0, ReceiveBytes.Length);
+                Message += Encoding.ASCII.GetString(ReceiveBytes);
+            } while (Message[Message.Length - 1] != 0);
+
             rtxbDataReceive.Text = Message;
         }
 
         //**Gui Du Lieu**
         public void Send()
         {
-            Byte[] buffer = Encoding.UTF8.GetBytes($"{rtxbDataSend.Text}\n");
-            if (buffer.Length < 1)
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.ShowDialog();
+            FileStream fs;
+
+            if (sfd.FileName != "")
             {
-                MessageBox.Show("Hay Nhap Van Ban! ", "WARNING", MessageBoxButtons.OK);
+                fs = new FileStream(sfd.FileName, FileMode.Create);
+            }
+            else
+            {
+                MessageBox.Show("Chon File!", "WARNING", MessageBoxButtons.OK);
                 return;
             }
-            writeStream.Write(buffer, 0, buffer.Length);
+            using (StreamWriter sw = new StreamWriter(fs))
+            {
+                string output = rtxbDataSend.Text + "\0";
+                sw.Flush();
+                sw.Write(output);
+            }
+            if (fs != null)
+            {
+                MessageBox.Show("Da Ghi Thanh Cong", "Thanh Cong", MessageBoxButtons.OK);
+            }
+            fs.Close();
+            tcpClient.Client.SendFile(sfd.FileName);
         }
 
         //**Thiet Lap Ket Noi**
         public void Connect()
         {
-            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 4080);
+            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 4040);
             readStream = tcpClient.GetStream();
             writeStream = tcpClient.GetStream();
             //Receive();
-            if(txbUserName.Text.Length > 0)
+            if (txbUserName.Text.Length > 0)
             {
                 UserName = txbUserName.Text + "\n";
             }
@@ -152,13 +153,33 @@ namespace test
         //Dua thong tin file da luu qua lsbSaveFfile
         private void btnSave_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.ShowDialog();
+            FileStream fs;
+            if (sfd.FileName == "")
+            {
+                MessageBox.Show("Chon file", "WARNING", MessageBoxButtons.OK);
+                return;
+            }
+            else
+            {
+                fs = new FileStream(sfd.FileName, FileMode.Create);
+            }
 
+            using (StreamWriter sw = new StreamWriter(fs))
+            {
+                string output = rtxbDataReceive.Text;
+                sw.Flush();
+                sw.Write(output);
+            }
+            fs.Close();
+            lsbSaveFile.Items.Add(sfd.FileName);
         }
 
         //**Xoa noi dung tren textbox**
         private void btnClear_Click(object sender, EventArgs e)
         {
-            switch(MessageBox.Show("Xoa tat ca", "WARNING", MessageBoxButtons.YesNo))
+            switch (MessageBox.Show("Xoa tat ca", "WARNING", MessageBoxButtons.YesNo))
             {
                 case DialogResult.Yes:
                     rtxbDataReceive.Clear();
@@ -167,21 +188,60 @@ namespace test
                 case DialogResult.No:
                     break;
             }
-            
-
         }
 
         //**Mo file da luu**
         private void btnOpen_Click(object sender, EventArgs e)
         {
+            if (lsbSaveFile.SelectedItem == null)
+            {
+                try
+                {
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.ShowDialog();
+                    FileStream fs = new FileStream(ofd.FileName, FileMode.OpenOrCreate);
+                    StreamReader sr = new StreamReader(fs);
+                    string content = sr.ReadToEnd();
+                    rtxbDataSend.Text = content;
+                    fs.Close();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Không thể mở thư mục!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                string curItem = lsbSaveFile.SelectedItem.ToString();
+                try
+                {
 
+                    FileStream fs = new FileStream(curItem, FileMode.Open);
+                    StreamReader sr = new StreamReader(fs);
+                    string content = sr.ReadToEnd();
+                    rtxbDataSend.Text = content;
+                    fs.Close();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Không thể mở thư mục!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
-
-
         //**Xoa file da luu**
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+            if (lsbSaveFile.SelectedItem == null)
+            {
+                MessageBox.Show("Chọn file để xoá", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                string filename = lsbSaveFile.SelectedItem.ToString();
+                File.Delete(filename);
+                lsbSaveFile.Items.Remove(filename);
+            }
         }
     }
 }

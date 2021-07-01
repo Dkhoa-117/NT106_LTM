@@ -39,7 +39,7 @@ namespace test
         //**Thiet Lap Ket Noi**
         public void Connect()
         {
-            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 4080);
+            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 4040);
             server.Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.Client.Bind(ip);
             server.Client.Listen(10);
@@ -47,12 +47,6 @@ namespace test
             {
                 Client client = new Client();
                 client.tcpClient.Client = server.Client.Accept();
-
-                //NetworkStream Write = client.tcpClient.GetStream();
-                //Byte[] send = new Byte[1];
-                //string mess = "Connect to Server \n";
-                //send = Encoding.ASCII.GetBytes(mess);
-                //Write.Write(send, 0, send.Length);
 
                 NetworkStream Read = client.tcpClient.GetStream();
                 Byte[] BytesName = new Byte[1];
@@ -81,9 +75,16 @@ namespace test
 
                 try
                 {
-                     Receive(ref sendBytes, client);
+                    Receive(ref sendBytes, client);
                     //nap sendBytes vao 1 ham xu ly du lieu
                     sendBytes = FixData(ref sendBytes);
+
+                    //**gui tra du lieu cho Client**
+                    NetworkStream writeStream = client.tcpClient.GetStream();
+                    if (sendBytes[0] == 0)
+                        break;
+                    writeStream.Write(sendBytes, 0, sendBytes.Length);
+                    writeStream.Flush();
                 }
                 catch
                 {
@@ -99,12 +100,6 @@ namespace test
                     break;
                 }
 
-                //**gui tra du lieu cho Client**
-                NetworkStream writeStream = client.tcpClient.GetStream();
-                if (sendBytes[0] == 0)
-                    break;
-                writeStream.Write(sendBytes, 0, sendBytes.Length);
-                writeStream.Flush();
             }
         }
 
@@ -118,7 +113,8 @@ namespace test
             {
                 readStream.Read(ReceiveBytes, 0, ReceiveBytes.Length);
                 Message += Encoding.ASCII.GetString(ReceiveBytes);
-            } while (Message[Message.Length - 1] != 10);
+            } while (Message[Message.Length - 1] != 0);
+
             ReceiveBytes = Encoding.UTF8.GetBytes(Message);
         }
 
@@ -128,34 +124,38 @@ namespace test
             string Data = Encoding.UTF8.GetString(sendBytes);
             string temp = RightPlace(ref Data);
             Data = CapitalizeFirst(ref temp);
-            return Encoding.UTF8.GetBytes(Data);
+            return Encoding.UTF8.GetBytes(Data + "\0");
         }
-        
+
         //Dat dung cho
         public string RightPlace(ref string Data)
-	    {
-		    StringBuilder sb = new StringBuilder(Data.Trim());
-		    if(!(Data[Data.Length - 1] == '.' || Data[Data.Length - 1] == '?' || Data[Data.Length - 1] == '!') || Data[Data.Length - 1] == ',' || Data[Data.Length - 1] == ':')
-		    {
-			    sb.Append(".");
-		    }
+        {
+            StringBuilder sb = new StringBuilder(Data = Data.Trim());
+            if (!(Data[Data.Length - 1] == '.' || Data[Data.Length - 1] == '\0' || Data[Data.Length - 1] == '?' || Data[Data.Length - 1] == '!') || Data[Data.Length - 1] == ',' || Data[Data.Length - 1] == ':')
+            {
+                sb.Append(".");
+            }
 
-		    sb.Replace(".", ".$$$").Replace("!", "!$$$").Replace("?", "?$$$").Replace(":", ":$$$").Replace(";", ";$$$").Replace("…", "…$$$").Replace("\r\n", "\r\n$$$").Replace("\r", "\r$$$").Replace("\n", "\n$$$");
-		    string[] sentences = sb.ToString().Split("$$$", StringSplitOptions.RemoveEmptyEntries);
-		
-		    StringBuilder sb1 = new StringBuilder();
-		    for(int i = 0; i < sentences.Length; i++)
-		    {
+            sb.Replace(",", ",$$$").Replace(".", ".$$$").Replace("!", "!$$$").Replace("?", "?$$$").Replace(":", ":$$$").Replace(";", ";$$$").Replace("…", "…$$$").Replace("\r\n", "\r\n$$$").Replace("\r", "\r$$$").Replace("\n", "\n$$$").Replace("\0", "");
+            string[] sentences = sb.ToString().Split("$$$", StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder sb1 = new StringBuilder();
+            for (int i = 0; i < sentences.Length; i++)
+            {
                 string temp = sentences[i];
-                
-                string punc = temp[temp.Length - 1].ToString();
-                sentences[i].Remove(sentences[i].Length - 1);
 
-			    sb1.Append(sentences[i].Trim());
-			    sb1.AppendFormat("{0} ", punc);
-		    }
-		    return sb1.ToString();
-	    }
+                char punc = temp[temp.Length - 1];
+                temp = temp.TrimEnd(punc);
+
+                sb1.Append(temp.Trim());
+                if (punc == '\n' || punc == '\r')
+                {
+                    sb1.Append(punc);
+                }
+                else
+                    sb1.AppendFormat("{0} ", punc);
+            }
+            return sb1.ToString().Trim();
+        }
         //Viet hoa
         public string CapitalizeFirst(ref string s)
         {
@@ -165,18 +165,17 @@ namespace test
             {
                 if (IsNewSentense && char.IsLetter(s[i]))
                 {
-                    result.Append (char.ToUpper (s[i]));
+                    result.Append(char.ToUpper(s[i]));
                     IsNewSentense = false;
                 }
                 else
-                    result.Append (s[i]);
+                    result.Append(s[i]);
 
-                if (s[i] == '!' || s[i] == '?' || s[i] == '.')
+                if (s[i] == '!' || s[i] == '?' || s[i] == '.' || s[i] == '\n')
                 {
                     IsNewSentense = true;
                 }
             }
-            result.Append("/n");
             return result.ToString();
         }
     }
