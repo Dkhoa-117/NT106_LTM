@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {}
+    "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {
+    "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\Lab03_Bai04.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
         "projectName": "Lab03_Bai04",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +26,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,7 +37,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "DocX": {
+              "target": "Package",
+              "version": "[1.8.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -57,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -48,9 +48,10 @@ namespace test
             // btnSend
             // 
             this.btnSend.Font = new System.Drawing.Font("Viner Hand ITC", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSend.Location = new System.Drawing.Point(56, 541);
+            this.btnSend.Location = new System.Drawing.Point(39, 325);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(2);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(221, 55);
+            this.btnSend.Size = new System.Drawing.Size(155, 33);
             this.btnSend.TabIndex = 0;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -58,9 +59,10 @@ namespace test
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(554, 12);
+            this.btnDisconnect.Location = new System.Drawing.Point(388, 7);
+            this.btnDisconnect.Margin = new System.Windows.Forms.Padding(2);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(204, 49);
+            this.btnDisconnect.Size = new System.Drawing.Size(143, 29);
             this.btnDisconnect.TabIndex = 1;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;
@@ -69,17 +71,20 @@ namespace test
             // lsbSaveFile
             // 
             this.lsbSaveFile.FormattingEnabled = true;
-            this.lsbSaveFile.ItemHeight = 25;
-            this.lsbSaveFile.Location = new System.Drawing.Point(888, 127);
+            this.lsbSaveFile.ItemHeight = 15;
+            this.lsbSaveFile.Location = new System.Drawing.Point(622, 76);
+            this.lsbSaveFile.Margin = new System.Windows.Forms.Padding(2);
             this.lsbSaveFile.Name = "lsbSaveFile";
-            this.lsbSaveFile.Size = new System.Drawing.Size(313, 304);
+            this.lsbSaveFile.Size = new System.Drawing.Size(346, 184);
             this.lsbSaveFile.TabIndex = 3;
+            this.lsbSaveFile.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lsbSaveFile_MouseDown);
             // 
             // rtxbDataSend
             // 
-            this.rtxbDataSend.Location = new System.Drawing.Point(21, 312);
+            this.rtxbDataSend.Location = new System.Drawing.Point(15, 187);
+            this.rtxbDataSend.Margin = new System.Windows.Forms.Padding(2);
             this.rtxbDataSend.Name = "rtxbDataSend";
-            this.rtxbDataSend.Size = new System.Drawing.Size(840, 197);
+            this.rtxbDataSend.Size = new System.Drawing.Size(589, 120);
             this.rtxbDataSend.TabIndex = 4;
             this.rtxbDataSend.Text = "";
             this.rtxbDataSend.KeyUp += new System.Windows.Forms.KeyEventHandler(this.rtxbMessage_KeyUp);
@@ -87,9 +92,10 @@ namespace test
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Viner Hand ITC", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnStart.Location = new System.Drawing.Point(554, 12);
+            this.btnStart.Location = new System.Drawing.Point(388, 7);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(204, 50);
+            this.btnStart.Size = new System.Drawing.Size(143, 30);
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "Start !";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -97,27 +103,30 @@ namespace test
             // 
             // txbUserName
             // 
-            this.txbUserName.Location = new System.Drawing.Point(236, 22);
+            this.txbUserName.Location = new System.Drawing.Point(165, 13);
+            this.txbUserName.Margin = new System.Windows.Forms.Padding(2);
             this.txbUserName.Name = "txbUserName";
-            this.txbUserName.Size = new System.Drawing.Size(312, 31);
+            this.txbUserName.Size = new System.Drawing.Size(220, 23);
             this.txbUserName.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe Script", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(105, 22);
+            this.label1.Location = new System.Drawing.Point(74, 13);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 32);
+            this.label1.Size = new System.Drawing.Size(90, 22);
             this.label1.TabIndex = 7;
             this.label1.Text = "User Name";
             // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Viner Hand ITC", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSave.Location = new System.Drawing.Point(328, 541);
+            this.btnSave.Location = new System.Drawing.Point(230, 325);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(221, 55);
+            this.btnSave.Size = new System.Drawing.Size(155, 33);
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -126,9 +135,10 @@ namespace test
             // btnClear
             // 
             this.btnClear.Font = new System.Drawing.Font("Viner Hand ITC", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnClear.Location = new System.Drawing.Point(583, 541);
+            this.btnClear.Location = new System.Drawing.Point(408, 325);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(221, 55);
+            this.btnClear.Size = new System.Drawing.Size(155, 33);
             this.btnClear.TabIndex = 9;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -136,17 +146,19 @@ namespace test
             // 
             // rtxbDataReceive
             // 
-            this.rtxbDataReceive.Location = new System.Drawing.Point(21, 87);
+            this.rtxbDataReceive.Location = new System.Drawing.Point(15, 52);
+            this.rtxbDataReceive.Margin = new System.Windows.Forms.Padding(2);
             this.rtxbDataReceive.Name = "rtxbDataReceive";
-            this.rtxbDataReceive.Size = new System.Drawing.Size(840, 201);
+            this.rtxbDataReceive.Size = new System.Drawing.Size(589, 122);
             this.rtxbDataReceive.TabIndex = 10;
             this.rtxbDataReceive.Text = "";
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(1064, 447);
+            this.btnDelete.Location = new System.Drawing.Point(745, 268);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(137, 55);
+            this.btnDelete.Size = new System.Drawing.Size(96, 33);
             this.btnDelete.TabIndex = 11;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -154,9 +166,10 @@ namespace test
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(888, 447);
+            this.btnOpen.Location = new System.Drawing.Point(622, 268);
+            this.btnOpen.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(137, 55);
+            this.btnOpen.Size = new System.Drawing.Size(96, 33);
             this.btnOpen.TabIndex = 12;
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -165,25 +178,27 @@ namespace test
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(888, 99);
+            this.label2.Location = new System.Drawing.Point(622, 59);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 25);
+            this.label2.Size = new System.Drawing.Size(61, 15);
             this.label2.TabIndex = 13;
             this.label2.Text = "File đã lưu";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 98);
+            this.label3.Location = new System.Drawing.Point(15, 59);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 25);
+            this.label3.Size = new System.Drawing.Size(0, 15);
             this.label3.TabIndex = 14;
             // 
             // TCP_Client
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1225, 627);
+            this.ClientSize = new System.Drawing.Size(979, 376);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOpen);
@@ -198,8 +213,10 @@ namespace test
             this.Controls.Add(this.lsbSaveFile);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnSend);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "TCP_Client";
             this.Text = "TCP_Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCP_Client_FormClosing_1);
             this.Load += new System.EventHandler(this.TCP_Client_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

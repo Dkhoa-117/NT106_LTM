@@ -5,7 +5,28 @@
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "DocX/1.8.0": {
+        "runtime": {
+          "lib/net40/Xceed.Document.NET.dll": {
+            "assemblyVersion": "1.8.0.0",
+            "fileVersion": "1.8.0.0"
+          },
+          "lib/net40/Xceed.Words.NET.dll": {
+            "assemblyVersion": "1.8.0.0",
+            "fileVersion": "1.8.0.0"
+          }
+        }
+      }
+    }
   },
-  "libraries": {}
+  "libraries": {
+    "DocX/1.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KYZ8BaS/yC7SuwKon9DQ1sc3sRkgJpcYf5UNiUcDnyzWwooBcbIzWVnwQrwjb6q+mrUr5vOQPUCSJo2wz8tjdw==",
+      "path": "docx/1.8.0",
+      "hashPath": "docx.1.8.0.nupkg.sha512"
+    }
+  }
 }

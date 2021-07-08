@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -27,7 +28,12 @@ namespace test
         {
             InitializeComponent();
         }
-
+                private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Bạn thật sự muốn tắt chương trình ?", "Thoát", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+            }
+        }
         private void btnListen_Click(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -48,16 +54,11 @@ namespace test
                 Client client = new Client();
                 client.tcpClient.Client = server.Client.Accept();
 
-                NetworkStream Read = client.tcpClient.GetStream();
-                Byte[] BytesName = new Byte[1];
-                do
-                {
-                    Read.Read(BytesName, 0, BytesName.Length);
-                    client.UserName += Encoding.UTF8.GetString(BytesName);
-                } while (client.UserName[client.UserName.Length - 1] != 10);
+                StreamReader Read = new StreamReader(client.tcpClient.GetStream());
+                client.UserName = Read.ReadLine();
 
                 MembersList.Add(client);
-                lsbMembers.Items.Insert(0, $"New Connect from {client.tcpClient.Client.RemoteEndPoint} || {client.UserName}");
+                lsbMembers.Items.Insert(0, $"Kết nối từ {client.tcpClient.Client.RemoteEndPoint} || {client.UserName}");
 
                 //Send Thread 
                 Thread _thread = new Thread(Send);
@@ -69,74 +70,83 @@ namespace test
         public void Send(object o)
         {
             Client client = (Client)o;
-            while (client.tcpClient.Connected)
+            bool status = true;
+            while (client.tcpClient.Connected && status == true)
             {
-                Byte[] sendBytes = new Byte[1];
-
+                byte[] sendBytes = new byte[50000];
                 try
                 {
+                    StreamReader sr = new StreamReader(client.tcpClient.GetStream());
                     Receive(ref sendBytes, client);
                     //nap sendBytes vao 1 ham xu ly du lieu
-                    sendBytes = FixData(ref sendBytes);
+                    status = FixData(ref sendBytes);
+                    if (status == true)
+                    {
+                        //**gui tra du lieu cho Client**
+                        NetworkStream writeStream = client.tcpClient.GetStream();
+                        writeStream.Write(sendBytes, 0, sendBytes.Length);
+                        writeStream.Flush();
+                    }
+                    else if (status == false)
+                        Remove_Client(client);
 
-                    //**gui tra du lieu cho Client**
-                    NetworkStream writeStream = client.tcpClient.GetStream();
-                    if (sendBytes[0] == 0)
-                        break;
-                    writeStream.Write(sendBytes, 0, sendBytes.Length);
-                    writeStream.Flush();
                 }
                 catch
                 {
-                    client.tcpClient.Close();
-
-                    //**Cap Nhat Lai MemberList**
-                    MembersList.Remove(client);
-                    lsbMembers.Items.Clear();
-                    foreach (var Member in MembersList)
-                    {
-                        lsbMembers.Items.Add(Member.tcpClient.Client.RemoteEndPoint + " || " + Member.UserName);
-                    }
+                    Remove_Client(client);
                     break;
                 }
 
+            }
+        }
+        public void Remove_Client(Client client)
+        {
+            client.tcpClient.Close();
+
+            //**Cập nhật lại MemberList**
+            MembersList.Remove(client);
+            lsbMembers.Items.Clear();
+            foreach (var Member in MembersList)
+            {
+                lsbMembers.Items.Add(Member.tcpClient.Client.RemoteEndPoint + " || " + Member.UserName);
             }
         }
 
         //**Nhan thong tin**
         public void Receive(ref Byte[] ReceiveBytes, Client client)
         {
-            NetworkStream networkStream = client.tcpClient.GetStream();
-            NetworkStream readStream = networkStream;
-            string Message = null;
-            do
-            {
+            NetworkStream readStream = client.tcpClient.GetStream();
                 readStream.Read(ReceiveBytes, 0, ReceiveBytes.Length);
-                Message += Encoding.ASCII.GetString(ReceiveBytes);
-            } while (Message[Message.Length - 1] != 0);
-
-            ReceiveBytes = Encoding.UTF8.GetBytes(Message);
         }
 
         //**Ham xu ly du lieu**
-        public Byte[] FixData(ref Byte[] sendBytes)
+        public bool FixData(ref byte[] sendBytes)
         {
             string Data = Encoding.UTF8.GetString(sendBytes);
-            string temp = RightPlace(ref Data);
-            Data = CapitalizeFirst(ref temp);
-            return Encoding.UTF8.GetBytes(Data + "\0");
+            if(Data[0] == '0')
+            {
+                return false;
+            }
+            else if(Data[0] == '1')
+            {
+                Data = Data.Remove(0, 2).Replace("\0","");
+                string temp = RightPlace(ref Data);
+                Data = CapitalizeFirst(ref temp);
+                sendBytes = Encoding.UTF8.GetBytes(Data);            
+            }
+            return true;
         }
 
         //Dat dung cho
         public string RightPlace(ref string Data)
         {
             StringBuilder sb = new StringBuilder(Data = Data.Trim());
-            if (!(Data[Data.Length - 1] == '.' || Data[Data.Length - 1] == '\0' || Data[Data.Length - 1] == '?' || Data[Data.Length - 1] == '!') || Data[Data.Length - 1] == ',' || Data[Data.Length - 1] == ':')
+            if (!(Data[Data.Length - 1] == '.' || Data[Data.Length - 1] == '?' || Data[Data.Length - 1] == '!') || Data[Data.Length - 1] == ',' || Data[Data.Length - 1] == ':')
             {
                 sb.Append(".");
             }
 
-            sb.Replace(",", ",$$$").Replace(".", ".$$$").Replace("!", "!$$$").Replace("?", "?$$$").Replace(":", ":$$$").Replace(";", ";$$$").Replace("…", "…$$$").Replace("\r\n", "\r\n$$$").Replace("\r", "\r$$$").Replace("\n", "\n$$$").Replace("\0", "");
+            sb.Replace(",", ",$$$").Replace(".", ".$$$").Replace("!", "!$$$").Replace("?", "?$$$").Replace(":", ":$$$").Replace(";", ";$$$").Replace("…", "…$$$").Replace("\r\n", "\r\n$$$").Replace("\r", "\r$$$").Replace("\n", "\n$$$");
             string[] sentences = sb.ToString().Split("$$$", StringSplitOptions.RemoveEmptyEntries);
             StringBuilder sb1 = new StringBuilder();
             for (int i = 0; i < sentences.Length; i++)

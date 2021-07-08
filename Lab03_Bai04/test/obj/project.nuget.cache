@@ -1,8 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "orVUSnGrmHGNdWLPz2P+KD87Ys4tPdJul2XI+VHd3vI4ghampHs7+lyTKf8C/JLjA/yqB7h+t/8jQFnDFRrhZQ==",
+  "dgSpecHash": "WLXfTr89iyHXHvLhpPRoCVROV5Bh1ffGVYldcDFAMzXrkLIBatbwimS7vlgvV/GxLqNIAkV3kxUyc9620KawIQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\NT106_LTM\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "projectFilePath": "C:\\Users\\PC\\Downloads\\NT106_LTM_1\\Lab03_Bai04\\test\\Lab03_Bai04.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PC\\.nuget\\packages\\docx\\1.8.0\\docx.1.8.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DocX 1.8.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "DocX",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }
